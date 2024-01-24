@@ -11,7 +11,8 @@ class PostController extends Controller
      */
     public function single()
     {
-        return view('blog.single');
+        return 'displaying SINGLE';
+        // return view('blog.single');
     }
 
     /**
