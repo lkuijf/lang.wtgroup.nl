@@ -2,6 +2,10 @@
 
 use Themosis\Core\Application;
 
+use Themosis\Support\Facades\Page;
+use Themosis\Support\Section;
+
+
 /*
 |--------------------------------------------------------------------------
 | Bootstrap Theme
@@ -136,3 +140,124 @@ $theme->support($theme->config('support', []));
 |
 */
 $theme->templates($theme->config('templates', []));
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Theme Templates
+|--------------------------------------------------------------------------
+|
+| Register theme templates. Templates are configured in your theme
+| templates.php configuration file.
+|
+*/
+$theme->templates($theme->config('templates', []));
+
+
+/* CUSTOM Themosis W.T. by Leon Kuijf */
+
+$page = Page::make('website-options', __( 'Set your website options' ))
+    ->setMenu('Website options')
+    ->set();
+// $page->route('/', function () {
+//     return view('admin.home');
+// });
+$page->addSections([
+    // new Section('general', 'General'),
+    new Section('social', 'Social'),
+    new Section('footer', 'Footer')
+]);
+$page->addSettings([
+    // 'general' => [
+    //     Field::text('title', [
+    //         // 'rules' => 'required|min:6'
+    //     ]),
+    //     Field::textarea('comment')
+    // ],
+    'social' => [
+        Field::text('twitter', [
+            // 'rules' => 'required|url'
+        ])
+    ],
+    'footer' => [
+        Field::editor('footer_text', [
+            'settings' => [
+                'wpautop' => false
+            ]
+        ])
+    ]
+]);
+
+
+/* Carbon Fields W.T. by Leon Kuijf */
+use Carbon_Fields\Container;
+use Carbon_Fields\Block;
+use Carbon_Fields\Field;
+
+add_action( 'after_setup_theme', 'crb_load' );
+add_action( 'carbon_fields_register_fields', 'myNewBlock'  );
+
+function myNewBlock(){
+    Block::make( __( 'TEST block for association fields' ) ) // cannot be changed afterwards
+	->add_fields( array(
+        // Field::make( 'text', 'anchor', __( 'Anchor (Link menu items to this block with: #[Anchor])' ) ),
+		Field::make( 'text', 'heading', __( 'Block Heading' ) ),
+		// Field::make( 'image', 'image', __( 'Block Image' ) ),
+		Field::make( 'rich_text', 'content', __( 'Block Content' ) ),
+	) )
+    ->set_description( __( 'Custom Bock for testing with association fields.' ) )
+    // ->set_category( 'layout' )
+    ->set_category( 'custom-wt-category', __( 'Custom blocks (by W.T. Media & Events)' ), 'smiley' )
+    ->set_icon( 'heart' )
+    ->set_keywords( [ __( 'wt' ), __( 'custom' ), __( 'extra' ) ] )
+    // ->set_mode( 'both' )
+    // ->set_editor_style( 'crb-my-shiny-gutenberg-block-stylesheet-BACKEND' )
+    // ->set_style( 'crb-my-shiny-gutenberg-block-stylesheet-FRONTEND' )
+
+    /*
+    ->set_inner_blocks( true )
+    ->set_inner_blocks_position( 'below' )
+    ->set_inner_blocks_template( array(
+		array( 'core/heading' ),
+		array( 'core/paragraph' )
+	) )
+    ->set_inner_blocks_template_lock( 'insert' )
+    ->set_parent( 'carbon-fields/product' )
+    ->set_allowed_inner_blocks( array(
+		'core/paragraph',
+		'core/list'
+	) )
+	->set_render_callback( function () {
+	} )
+    */
+
+	->set_render_callback( function ( $fields, $attributes, $inner_blocks ) {
+        /**** 10-1-2024 Leon Kuijf. Set some initial values. Adding fields AFTER block has already been created ends up in an undefined array key ****/
+        if(!isset($fields['anchor'])) $fields['anchor'] = '';
+            //echo wp_get_attachment_image( $fields['image'], 'full' );
+            list($url, $width, $height) = wp_get_attachment_image_src($fields['image'], 'full');
+?>
+        <div class="wtBlock">
+            <div class="wtbContent">
+                <div class="wtbText">
+                    <div class="wtbInnerText">
+                        <div class="wtb_heading">
+                            <h1><?php echo esc_html( $fields['heading'] ); ?></h1>
+                        </div><!-- /.wtb_heading -->
+                        <div class="wtb_content">
+                            <?php echo apply_filters( 'the_content', $fields['content'] ); ?>
+                        </div><!-- /.wtb_content -->
+                    </div><!-- /.wtbInnerText -->
+                </div><!-- /.wtbText -->
+            </div><!-- /.wtbContent -->
+        </div><!-- /.wtBlock -->
+<?php
+	} );
+}
+
+
+function crb_load() {
+    require_once( 'vendor/autoload.php' );
+    \Carbon_Fields\Carbon_Fields::boot();
+}
