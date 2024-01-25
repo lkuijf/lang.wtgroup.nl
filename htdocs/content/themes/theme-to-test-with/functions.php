@@ -205,6 +205,13 @@ function myNewBlock(){
 		Field::make( 'text', 'heading', __( 'Block Heading' ) ),
 		// Field::make( 'image', 'image', __( 'Block Image' ) ),
 		Field::make( 'rich_text', 'content', __( 'Block Content' ) ),
+        Field::make( 'association', 'crb_association', __( 'Association' ) )
+        ->set_types( array(
+            array(
+                'type'      => 'post',
+                'post_type' => 'post',
+            )
+        ) ),
 	) )
     ->set_description( __( 'Custom Bock for testing with association fields.' ) )
     // ->set_category( 'layout' )
