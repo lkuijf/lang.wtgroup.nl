@@ -252,7 +252,28 @@ function myNewBlock(){
                             <h1><?php echo esc_html( $fields['heading'] ); ?></h1>
                         </div><!-- /.wtb_heading -->
                         <div class="wtb_content">
-                            <?php echo apply_filters( 'the_content', $fields['content'] ); ?>
+                            <?php
+                                echo apply_filters( 'the_content', $fields['content'] );
+                                // echo $fields['content'];
+                            ?>
+                            <div>
+                                <?php
+                                /*
+                                ?>
+                                <pre><?php print_r($fields['crb_association']) ?></pre>
+                                <?php
+                                */
+
+                                foreach($fields['crb_association'] as $assoc) {
+                                    $post = get_post($assoc['id']);
+                                    echo apply_filters('the_content', $post->post_title);
+                                    echo apply_filters('the_content', $post->post_content);
+                                }
+
+                                // $post = get_post($my_postid);
+
+                                ?>
+                            </div>
                         </div><!-- /.wtb_content -->
                     </div><!-- /.wtbInnerText -->
                 </div><!-- /.wtbText -->
