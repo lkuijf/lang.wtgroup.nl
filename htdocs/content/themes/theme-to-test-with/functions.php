@@ -242,8 +242,7 @@ function myNewBlock(){
 	->set_render_callback( function ( $fields, $attributes, $inner_blocks ) {
         /**** 10-1-2024 Leon Kuijf. Set some initial values. Adding fields AFTER block has already been created ends up in an undefined array key ****/
         if(!isset($fields['anchor'])) $fields['anchor'] = '';
-            //echo wp_get_attachment_image( $fields['image'], 'full' );
-            list($url, $width, $height) = wp_get_attachment_image_src($fields['image'], 'full');
+        // list($url, $width, $height) = wp_get_attachment_image_src($fields['image'], 'full');
 ?>
         <div class="wtBlock">
             <div class="wtbContent">
