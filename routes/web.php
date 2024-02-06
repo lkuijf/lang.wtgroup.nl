@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\SubmitController;
 
 /**
  * Application routes.
@@ -19,5 +20,7 @@ Route::any('archive', [PostController::class, 'collection']);
 Route::any('category', [PostController::class, 'collection']);
 Route::any('tag', [PostController::class, 'collection']);
 Route::any('blog', [PostController::class, 'collection']);
+
+Route::post('submit-wt-contact-form', [SubmitController::class, 'sendWtContactFormXHR']);
 
 Route::fallback([PageController::class, 'error404']);

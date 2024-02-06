@@ -892,3 +892,22 @@ object {
 .gallery-caption {
   display: block;
 }
+
+.wtContactForm > div {
+  padding: 5px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.wtContactForm > div :first-child {
+  width: 150px;
+}
+.wtContactForm > div .wtFieldError {
+  border-color: red !important;
+}
+.wtContactForm > div span {
+  color: red;
+}
+.wtContactForm > div textarea {
+  width: 300px;
+}

@@ -90,3 +90,25 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 # Media
 --------------------------------------------------------------*/
 @import "media/media";
+
+.wtContactForm {
+	> div {
+		padding: 5px 0;
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		:first-child {
+			width: 150px;
+		}
+		.wtFieldError {
+			border-color: red !important;
+		}
+		span {
+			color: red;
+		}
+		textarea {
+			// width: auto;
+			width: 300px;
+		}
+	}
+}
