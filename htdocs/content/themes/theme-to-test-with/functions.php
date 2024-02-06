@@ -253,7 +253,14 @@ function contactForm(){
             // ->set_attribute('pattern', '[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$')
             // ->set_attribute('data-testing', 'myvalue')
             // ->set_attribute('placeholder', 'voorbeeld@domein.nl')
-            ->set_required( true ),
+            ->set_help_text( __( 'To which e-mail address are the filled in forms send to?' ) )
+            ->set_required( true )
+            ->set_width( 20 ),
+        
+        Field::make( 'text', 'visitor_email_field_name', __( 'Field name where the visitor leaves his/her e-mail address' ) )
+            ->set_help_text( __( 'When a confirmation e-mail has to be send to the visitor, fill in the name of the field containing the e-mail address' ) )
+            ->set_width( 20 ),
+
         Field::make( 'text', 'success_text', __( 'Message when send successful' ) )
             ->set_default_value('Bedankt voor uw bericht! We nemen deze zo snel mogelijk in behandeling.')
             ->set_required( true ),
@@ -263,8 +270,9 @@ function contactForm(){
 
         Field::make( 'complex', 'contact_form', __('Contact form') )
         ->add_fields( 'field', array(
-            Field::make( 'text', 'label', __( 'Label' ) ),
-            Field::make( 'text', 'placeholder', __( 'Placeholder' ) ),
+            Field::make( 'text', 'name', __( 'Name' ) )->set_required( true )->set_help_text( __( 'Visible in the e-mail message' ) ),
+            Field::make( 'text', 'label', __( 'Label' ) )->set_required( true )->set_help_text( __( 'Visible on the website' ) )->set_width( 20 ),
+            Field::make( 'text', 'placeholder', __( 'Placeholder' ) )->set_help_text( __( 'Sample text in the field' ) )->set_width( 20 ),
             Field::make( 'checkbox', 'required', __( 'Required' ) ),
             Field::make( 'checkbox', 'email', __( 'E-mail format' ) ),
             Field::make( 'checkbox', 'numeric', __( 'Only numbers' ) ),
@@ -277,6 +285,7 @@ function contactForm(){
 
         ) )
         ->add_fields( 'textarea', array(
+            Field::make( 'text', 'name', __( 'Name' ) )->set_required( true ),
             Field::make( 'text', 'label', __( 'Label' ) ),
             Field::make( 'text', 'placeholder', __( 'Placeholder' ) ),
             Field::make( 'checkbox', 'required', __( 'Required' ) ),
@@ -294,6 +303,16 @@ function contactForm(){
         <div class="wtBlock">
             <form action="post" class="wtContactForm">
                 <?php
+                $formParams = new \stdClass();
+                $formParams->mail_to = $fields['mail_to'];
+                $formParams->visitor_email_field_name = $fields['visitor_email_field_name'];
+                $formParams->success_text = $fields['success_text'];
+                $formParams->failure_text = $fields['failure_text'];
+
+                // $encryptedString = Crypt::encryptString('gewoon iets om te testen');
+                echo '<input name="form_parameters" type="hidden" value="' . Crypt::encryptString(json_encode($formParams)) . '" data-wt-rules>';
+
+
                 $availableRules = ['required', 'email', 'numeric', 'alpha', 'url']; // check Block declaration of all available rules.
                 if(isset($fields['contact_form']) && count($fields['contact_form'])) {
                     foreach($fields['contact_form'] as $formItem) {
@@ -307,13 +326,13 @@ function contactForm(){
                         if($formItem['_type'] == 'field') {
                             echo '
                                 <label for="' . $formItem['_id'] . '">' . esc_html($formItem['label']) . '</label>
-                                <input name="' . esc_html($formItem['label']) . '" id="' . $formItem['_id'] . '" type="text" placeholder="' . esc_html($formItem['placeholder']) . '" data-wt-rules="' . implode(' ', $currFieldRules) . '">
+                                <input name="' . esc_html($formItem['name']) . '" id="' . $formItem['_id'] . '" type="text" placeholder="' . esc_html($formItem['placeholder']) . '" data-wt-rules="' . implode(' ', $currFieldRules) . '">
                             ';
                         }
                         if($formItem['_type'] == 'textarea') {
                             echo '
                                 <label for="' . $formItem['_id'] . '">' . esc_html($formItem['label']) . '</label>
-                                <textarea name="' . esc_html($formItem['label']) . '" id="' . $formItem['_id'] . '" cols="10" rows="5" placeholder="' . esc_html($formItem['placeholder']) . '" data-wt-rules="' . implode(' ', $currFieldRules) . '"></textarea>
+                                <textarea name="' . esc_html($formItem['name']) . '" id="' . $formItem['_id'] . '" cols="10" rows="5" placeholder="' . esc_html($formItem['placeholder']) . '" data-wt-rules="' . implode(' ', $currFieldRules) . '"></textarea>
                             ';
                         }
                         echo '</div>';

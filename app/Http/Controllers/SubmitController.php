@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use stdClass;
+use Illuminate\Support\Facades\Crypt;
 
 class SubmitController extends Controller
 {
@@ -21,8 +22,14 @@ class SubmitController extends Controller
         $validationMessages = [];
 
         if(isset($request->fields) && count($request->fields)) {
+            // dd($request->fields);
+
             foreach($request->get('fields') as $field) {
-                $allFieldValues[$field['name']] =  $field['value'];
+                if($field['name'] == 'form_parameters') {
+                    $allFieldValues[$field['name']] = json_decode(Crypt::decryptString($field['value']));
+                } else {
+                    $allFieldValues[$field['name']] = $field['value'];
+                }
 
                 if($field['rules']) {
                     $aRules = explode(' ', $field['rules']);
@@ -48,6 +55,9 @@ class SubmitController extends Controller
         }
 // print_r($toValidate);
 // print_r($validationMessages);
+// dd($allFieldValues);
+// echo Crypt::decryptString($allFieldValues['encrypted']);
+// die();
 
         $res = new \stdClass();
         $res->errors = [];
@@ -97,7 +107,14 @@ class SubmitController extends Controller
             );
             $headers = implode("\r\n", $headers);
             mail($to_email, $subjectCompany, $messages[0], $headers);
-            mail($allFieldValues['E-mail'], $subjectVisitor, $messages[1], $headers);
+
+            // $visitorEmailField = $allFieldValues['visitor_email_field_name'];
+            $visitorEmailField = $allFieldValues['form_parameters']->visitor_email_field_name;
+            if($visitorEmailField != '' && (isset($allFieldValues[$visitorEmailField]))) {
+                if(filter_var($allFieldValues[$visitorEmailField], FILTER_VALIDATE_EMAIL)) {
+                    mail($allFieldValues[$visitorEmailField], $subjectVisitor, $messages[1], $headers);
+                }
+            }
         }
 
         echo json_encode($res);

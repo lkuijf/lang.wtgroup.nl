@@ -10,9 +10,11 @@ if(wtContactForms.length) {
 
             const fieldsToSubmit = form.querySelectorAll('[data-wt-rules]');
             fieldsToSubmit.forEach(field => {
-                field.classList.remove('wtFieldError');
-                let errorEl = field.nextSibling;
-                if(errorEl) errorEl.remove();
+                if(field.name != 'form_parameters') {
+                    field.classList.remove('wtFieldError');
+                    let errorEl = field.nextSibling;
+                    if(errorEl) errorEl.remove();
+                }
             });
 
             let xhr = new XMLHttpRequest();
@@ -26,8 +28,10 @@ if(wtContactForms.length) {
                     // if(response.errors.length) { // errors!
                     if(Object.keys(response.errors).length > 0) {
                         console.log('errors!');
-                        // console.log(response);
+                        // console.log(response.errors);
                         for(const [fname, fvalue] of Object.entries(response.errors)) {
+// console.log(fname);
+// console.log(fvalue);
                             let wtField = form.querySelector('[name="' + fname + '"]');
                             wtField.classList.add('wtFieldError');
                             let span = document.createElement('span');
