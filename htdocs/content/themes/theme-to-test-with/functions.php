@@ -298,7 +298,7 @@ function contactForm(){
     ->set_render_callback( function ( $fields, $attributes, $inner_blocks ) {
         /**** 10-1-2024 Leon Kuijf. Set some initial values. Adding fields AFTER block has already been created ends up in an undefined array key ****/
         // if(!isset($fields['anchor'])) $fields['anchor'] = '';
-        
+        if(!isset($fields['visitor_email_field_name'])) $fields['visitor_email_field_name'] = '';
 ?>
         <div class="wtBlock">
             <form action="post" class="wtContactForm">
