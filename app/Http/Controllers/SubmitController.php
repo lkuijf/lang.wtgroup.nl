@@ -148,7 +148,9 @@ class SubmitController extends Controller
         $messageCompany = '';
         $messageVisitor = '';
         foreach($values as $i => $v) {
-            if($i == '_token' || $i == 'g-recaptcha-response' || $i == 'method' || $i == 'valstrik' || $i == 'valkuil' || $i == 'success_text' || $i == 'email_to') continue;
+            $iToSkip = array('_token','g-recaptcha-response','method','valstrik','valkuil','success_text','email_to','form_parameters');
+            if(in_array($i, $iToSkip)) continue;
+
             $messageCompany .= '
             <p>
                 ' . str_replace('_', ' ', $i) . ':<br />
