@@ -235,7 +235,7 @@ use Carbon_Fields\Field;
 
 add_action( 'after_setup_theme', 'crb_load' );
 add_action( 'carbon_fields_register_fields', 'myNewBlock'  );
-add_action( 'carbon_fields_register_fields', 'contactForm'  );
+// add_action( 'carbon_fields_register_fields', 'contactForm'  );
 
 function contactForm(){
     Block::make( __( 'Contact formulier' ) ) // cannot be changed afterwards
@@ -257,9 +257,9 @@ function contactForm(){
             ->set_required( true )
             ->set_width( 20 ),
         
-        // Field::make( 'text', 'visitor_email_field_name', __( 'Field name where the visitor leaves his/her e-mail address' ) )
-        //     ->set_help_text( __( 'When a confirmation e-mail has to be send to the visitor, fill in the name of the field containing the e-mail address' ) )
-        //     ->set_width( 20 ),
+        Field::make( 'text', 'visitor_email_field_name', __( 'Field name where the visitor leaves his/her e-mail address' ) )
+            ->set_help_text( __( 'When a confirmation e-mail has to be send to the visitor, fill in the name of the field containing the e-mail address' ) )
+            ->set_width( 20 ),
 
         Field::make( 'text', 'success_text', __( 'Message when send successful' ) )
             ->set_default_value('Bedankt voor uw bericht! We nemen deze zo snel mogelijk in behandeling.')
@@ -270,7 +270,7 @@ function contactForm(){
 
         Field::make( 'complex', 'contact_form', __('Contact form') )
         ->add_fields( 'field', array(
-            // Field::make( 'text', 'name', __( 'Name' ) )->set_required( true )->set_help_text( __( 'Visible in the e-mail message' ) ),
+            Field::make( 'text', 'name', __( 'Name' ) )->set_required( true )->set_help_text( __( 'Visible in the e-mail message' ) ),
             Field::make( 'text', 'label', __( 'Label' ) )->set_required( true )->set_help_text( __( 'Visible on the website' ) )->set_width( 20 ),
             Field::make( 'text', 'placeholder', __( 'Placeholder' ) )->set_help_text( __( 'Sample text in the field' ) )->set_width( 20 ),
             Field::make( 'checkbox', 'required', __( 'Required' ) ),
