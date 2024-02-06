@@ -16,7 +16,7 @@ if(wtContactForms.length) {
             });
 
             let xhr = new XMLHttpRequest();
-            xhr.open('POST', 'http://wsl2-lang.wtgroup.nl/submit-wt-contact-form');
+            xhr.open('POST', '/submit-wt-contact-form');
             xhr.setRequestHeader('X-CSRF-TOKEN', csrfToken);
             xhr.setRequestHeader('Content-Type', 'application/json');
 
