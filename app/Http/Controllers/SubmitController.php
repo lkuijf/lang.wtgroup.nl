@@ -93,9 +93,9 @@ class SubmitController extends Controller
 
         if(!count($res->errors)) {
 
-            $to_email = 'leon@wtmedia-events.nl';
-            $subjectCompany = 'Ingevuld schedule-call-form vanaf wtmedia-events.nl';
-            $subjectVisitor = 'Kopie van uw bericht aan wtmedia-events.nl';
+            $to_email = $allFieldValues['form_parameters']->mail_to;
+            $subjectCompany = $allFieldValues['form_parameters']->subject_company;
+            $subjectVisitor = $allFieldValues['form_parameters']->subject_visitor;
             
             $messages = $this->getHtmlEmails($allFieldValues, $theme->getUrl() . '/dist/images/logo-wt-group.svg', 'De volgende gegevens zijn achtergelaten door de bezoeker.', 'Bedankt voor uw bericht. De volgende informatie hebben we ontvangen:');
             $headers = array(
@@ -108,7 +108,6 @@ class SubmitController extends Controller
             $headers = implode("\r\n", $headers);
             mail($to_email, $subjectCompany, $messages[0], $headers);
 
-            // $visitorEmailField = $allFieldValues['visitor_email_field_name'];
             $visitorEmailField = $allFieldValues['form_parameters']->visitor_email_field_name;
             if($visitorEmailField != '' && (isset($allFieldValues[$visitorEmailField]))) {
                 if(filter_var($allFieldValues[$visitorEmailField], FILTER_VALIDATE_EMAIL)) {
@@ -151,19 +150,11 @@ class SubmitController extends Controller
             $iToSkip = array('_token','g-recaptcha-response','method','valstrik','valkuil','success_text','email_to','form_parameters');
             if(in_array($i, $iToSkip)) continue;
 
-            $messageCompany .= '
-            <p>
-                ' . str_replace('_', ' ', $i) . ':<br />
-                <strong>' . (trim($v) == ''?'-':$v) . '</strong>
-            </p>
-            ';
+            $messageCompany .= '<p>' . str_replace('_', ' ', $i) . ':<br /><strong>' . (trim($v) == ''?'-':$v) . '</strong></p>';
+
             if($i == 'g-recaptcha-score') continue;
-            $messageVisitor .= '
-            <p>
-                ' . str_replace('_', ' ', $i) . ':<br />
-                <strong>' . (trim($v) == ''?'-':$v) . '</strong>
-            </p>
-            ';
+
+            $messageVisitor .= '<p>' . str_replace('_', ' ', $i) . ':<br /><strong>' . (trim($v) == ''?'-':$v) . '</strong></p>';
         }
         $bottomHtml = '';
         $bottomHtml .= '

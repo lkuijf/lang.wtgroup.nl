@@ -268,6 +268,13 @@ function contactForm(){
             ->set_default_value('Sorry, er is iets fout gegaan. Controleer het formulier op fouten. Er is geen bericht verzonden.')
             ->set_required( true ),
 
+        Field::make( 'text', 'subject_company', __( 'Subject of the e-mail to the company' ) )
+            ->set_default_value('Ingevuld contactformulier')
+            ->set_required( true ),
+        Field::make( 'text', 'subject_visitor', __( 'Subject of the e-mail to the visitor' ) )
+            ->set_default_value('Kopie van uw bericht')
+            ->set_required( true ),
+
         Field::make( 'complex', 'contact_form', __('Contact form') )
         ->add_fields( 'field', array(
             Field::make( 'text', 'name', __( 'Name' ) )->set_required( true )->set_help_text( __( 'Visible in the e-mail message' ) ),
@@ -299,7 +306,8 @@ function contactForm(){
         /**** 10-1-2024 Leon Kuijf. Set some initial values. Adding fields AFTER block has already been created ends up in an undefined array key ****/
         /**** Or put in comment: add_action( 'carbon_fields_register_fields', 'contactForm'  ), so the block can be removed *****/
         // if(!isset($fields['anchor'])) $fields['anchor'] = '';
-        // if(!isset($fields['visitor_email_field_name'])) $fields['visitor_email_field_name'] = '';
+        if(!isset($fields['subject_company'])) $fields['subject_company'] = '';
+        if(!isset($fields['subject_visitor'])) $fields['subject_visitor'] = '';
 ?>
         <div class="wtBlock">
             <form action="post" class="wtContactForm">
@@ -307,6 +315,8 @@ function contactForm(){
                 $formParams = new \stdClass();
                 $formParams->mail_to = $fields['mail_to'];
                 $formParams->visitor_email_field_name = $fields['visitor_email_field_name'];
+                $formParams->subject_company = $fields['subject_company'];
+                $formParams->subject_visitor = $fields['subject_visitor'];
                 $formParams->success_text = $fields['success_text'];
                 $formParams->failure_text = $fields['failure_text'];
 
