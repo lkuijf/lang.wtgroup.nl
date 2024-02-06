@@ -235,7 +235,7 @@ use Carbon_Fields\Field;
 
 add_action( 'after_setup_theme', 'crb_load' );
 add_action( 'carbon_fields_register_fields', 'myNewBlock'  );
-// add_action( 'carbon_fields_register_fields', 'contactForm'  );
+add_action( 'carbon_fields_register_fields', 'contactForm'  );
 
 function contactForm(){
     Block::make( __( 'Contact formulier' ) ) // cannot be changed afterwards
@@ -297,8 +297,9 @@ function contactForm(){
     ->set_keywords( [ __( 'wt' ), __( 'custom' ), __( 'extra' ) ] )
     ->set_render_callback( function ( $fields, $attributes, $inner_blocks ) {
         /**** 10-1-2024 Leon Kuijf. Set some initial values. Adding fields AFTER block has already been created ends up in an undefined array key ****/
+        /**** Or put in comment: add_action( 'carbon_fields_register_fields', 'contactForm'  ), so the block can be removed *****/
         // if(!isset($fields['anchor'])) $fields['anchor'] = '';
-        if(!isset($fields['visitor_email_field_name'])) $fields['visitor_email_field_name'] = '';
+        // if(!isset($fields['visitor_email_field_name'])) $fields['visitor_email_field_name'] = '';
 ?>
         <div class="wtBlock">
             <form action="post" class="wtContactForm">
