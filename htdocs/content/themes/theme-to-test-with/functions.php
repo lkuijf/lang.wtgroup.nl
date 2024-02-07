@@ -229,9 +229,11 @@ $author = Taxonomy::make('authors', 'books', 'Authors', 'Author')
 | By Leon Kuijf. W.T. Group.
 |
 */
+
 use Carbon_Fields\Container;
 use Carbon_Fields\Block;
 use Carbon_Fields\Field;
+// use Carbon_Fields\Widget;
 
 add_action( 'after_setup_theme', 'crb_load' );
 add_action( 'carbon_fields_register_fields', 'myNewBlock'  );
@@ -355,11 +357,11 @@ function contactForm(){
             </form><!-- /.wtContactForm -->
         </div><!-- /.wtBlock -->
 <?php
-        
+/*
         echo '<pre>';
         print_r($fields);
         echo '</pre>';
-
+*/
     });
 }
 
@@ -452,4 +454,6 @@ function myNewBlock(){
 function crb_load() {
     require_once( 'vendor/autoload.php' );
     \Carbon_Fields\Carbon_Fields::boot();
+
+    include_once( 'widgets.inc.php' );
 }

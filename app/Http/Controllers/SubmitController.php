@@ -61,7 +61,8 @@ class SubmitController extends Controller
 
         $res = new \stdClass();
         $res->errors = [];
-        $res->success = '';
+        $res->errorText = '';
+        $res->successText = '';
 
         // if($request->get('valkuil') || $request->get('valstrik')) {
         //     $res->errors[] = 'Spam gedetecteerd';
@@ -114,6 +115,9 @@ class SubmitController extends Controller
                     mail($allFieldValues[$visitorEmailField], $subjectVisitor, $messages[1], $headers);
                 }
             }
+            $res->successText = $allFieldValues['form_parameters']->success_text;
+        } else {
+            $res->errorText = $allFieldValues['form_parameters']->failure_text;
         }
 
         echo json_encode($res);

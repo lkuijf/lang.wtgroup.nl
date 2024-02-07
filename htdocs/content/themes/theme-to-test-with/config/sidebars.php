@@ -15,5 +15,15 @@ return [
         'after_widget' => '</div>',
         'before_title' => '<h2>',
         'after_title' => '</h2>',
+    ],
+    [
+        'name' => __('Bottom', THEME_TD),
+        'id' => 'bottom-1',
+        'description' => __('Area of the footer', THEME_TD),
+        'class' => 'customfooter',
+        'before_widget' => '<div>',
+        'after_widget' => '</div>',
+        'before_title' => '<h2>',
+        'after_title' => '</h2>',
     ]
 ];

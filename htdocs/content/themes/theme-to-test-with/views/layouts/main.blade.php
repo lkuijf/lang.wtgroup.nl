@@ -50,6 +50,16 @@
         <!-- End sidebar -->
     </div><!-- #content -->
 
+
+    <!-- Bottom -->
+    @if(is_active_sidebar('bottom-1'))
+        <div style="outline:1px solid red;">
+            @php(dynamic_sidebar('bottom-1'))
+        </div>
+    @endif
+    <!-- End bottom -->
+
+
     <footer id="colophon" class="site-footer">
         <div class="site-info">
             <a href="{{ esc_url(__('https://wordpress.org/', THEME_TD)) }}">
