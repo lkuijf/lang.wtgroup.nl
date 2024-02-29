@@ -38,7 +38,7 @@ function displayAlertBox(type = 'danger', message = 'the message') {
 
 function removeErrorMessages(fields) {
     fields.forEach(f => {
-        if(f.name != 'form_parameters') {
+        if(f.name != 'form_parameters' && f.name != 'valkuil' && f.name != 'valstrik') {
             f.classList.remove('wtFieldError');
             let errorEl = f.nextSibling;
             if(errorEl) errorEl.remove();
@@ -63,14 +63,17 @@ if(wtContactForms.length) {
                 if (xhr.status === 200) {
                     const response = JSON.parse(xhr.responseText);
                     // if(response.errors.length) { // errors!
+console.log(response.errors);
                     if(Object.keys(response.errors).length > 0) {
                         for(const [fname, fvalue] of Object.entries(response.errors)) {
-                            let wtField = form.querySelector('[name="' + fname + '"]');
-                            wtField.classList.add('wtFieldError');
-                            let span = document.createElement('span');
-                            let txt = document.createTextNode(fvalue);
-                            span.appendChild(txt);
-                            wtField.after(span);
+                            if(fname != 'honeypot') {
+                                let wtField = form.querySelector('[name="' + fname + '"]');
+                                wtField.classList.add('wtFieldError');
+                                let span = document.createElement('span');
+                                let txt = document.createTextNode(fvalue);
+                                span.appendChild(txt);
+                                wtField.after(span);
+                            }
                         }
                         // console.log(response.errorText);
                         displayAlertBox('danger', response.errorText);

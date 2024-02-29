@@ -322,11 +322,9 @@ function contactForm(){
                 $formParams->success_text = $fields['success_text'];
                 $formParams->failure_text = $fields['failure_text'];
 
-                // $encryptedString = Crypt::encryptString('gewoon iets om te testen');
                 echo '<input name="form_parameters" type="hidden" value="' . Crypt::encryptString(json_encode($formParams)) . '" data-wt-rules>';
 
-
-                $availableRules = ['required', 'email', 'numeric', 'alpha', 'url']; // check Block declaration of all available rules.
+                $availableRules = ['required', 'email', 'numeric', 'alpha', 'url']; // check Block declaration (above) of all available rules.
                 if(isset($fields['contact_form']) && count($fields['contact_form'])) {
                     foreach($fields['contact_form'] as $formItem) {
                         
@@ -353,6 +351,8 @@ function contactForm(){
                     }
                 }
                 ?>
+                <input type="hidden" name="valkuil" data-wt-rules>
+                <input type="hidden" name="valstrik" data-wt-rules>
                 <button type="submit">Verzenden</button>
             </form><!-- /.wtContactForm -->
         </div><!-- /.wtBlock -->

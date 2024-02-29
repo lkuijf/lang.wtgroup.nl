@@ -14,7 +14,7 @@ class SubmitController extends Controller
      */
     public function sendWtContactFormXHR(Request $request)
     {
-        // dd($request);
+// dd($request);
         $theme = app('wp.theme');
 
         $allFieldValues = [];
@@ -22,7 +22,7 @@ class SubmitController extends Controller
         $validationMessages = [];
 
         if(isset($request->fields) && count($request->fields)) {
-            // dd($request->fields);
+// dd($request->fields);
 
             foreach($request->get('fields') as $field) {
                 if($field['name'] == 'form_parameters') {
@@ -55,7 +55,7 @@ class SubmitController extends Controller
         }
 // print_r($toValidate);
 // print_r($validationMessages);
-// dd($allFieldValues);
+// print_r($allFieldValues);
 // echo Crypt::decryptString($allFieldValues['encrypted']);
 // die();
 
@@ -64,9 +64,9 @@ class SubmitController extends Controller
         $res->errorText = '';
         $res->successText = '';
 
-        // if($request->get('valkuil') || $request->get('valstrik')) {
-        //     $res->errors[] = 'Spam gedetecteerd';
-        // }
+        if($allFieldValues['valkuil'] || $allFieldValues['valstrik']) {
+            $res->errors['honeypot'] = true;
+        }
 
 /*
         $toValidate = array(
@@ -118,6 +118,9 @@ class SubmitController extends Controller
             $res->successText = $allFieldValues['form_parameters']->success_text;
         } else {
             $res->errorText = $allFieldValues['form_parameters']->failure_text;
+            if(isset($res->errors['honeypot'])) {
+                $res->errorText = 'Spam gedetecteerd';
+            } 
         }
 
         echo json_encode($res);
@@ -153,11 +156,8 @@ class SubmitController extends Controller
         foreach($values as $i => $v) {
             $iToSkip = array('_token','g-recaptcha-response','method','valstrik','valkuil','success_text','email_to','form_parameters');
             if(in_array($i, $iToSkip)) continue;
-
             $messageCompany .= '<p>' . str_replace('_', ' ', $i) . ':<br /><strong>' . (trim($v) == ''?'-':$v) . '</strong></p>';
-
             if($i == 'g-recaptcha-score') continue;
-
             $messageVisitor .= '<p>' . str_replace('_', ' ', $i) . ':<br /><strong>' . (trim($v) == ''?'-':$v) . '</strong></p>';
         }
         $bottomHtml = '';
