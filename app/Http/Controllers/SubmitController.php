@@ -145,7 +145,7 @@ class SubmitController extends Controller
                         background-color: #FFF;
                         border: 1px solid #CCC;
                     ">
-                    <p style="text-align:center;"><img src="' . $imgLocation . '" alt="logo" width="300" height="300"></p>
+                    <p style="text-align:center;"><img src="' . $imgLocation . '" alt="logo" width="300"></p>
         ';
 
         $messageCompany = '';
