@@ -893,6 +893,10 @@ object {
   display: block;
 }
 
+body {
+  background-color: #999;
+}
+
 .wtContactForm > div {
   padding: 5px 0;
   display: flex;
@@ -910,4 +914,60 @@ object {
 }
 .wtContactForm > div textarea {
   width: 300px;
+}
+
+@keyframes fadeInOut {
+  0%, 100% {
+    opacity: 0;
+  }
+  2%, 98% {
+    opacity: 1;
+  }
+}
+.alert {
+  animation: fadeInOut 10s linear;
+  bottom: 0;
+  min-height: 120px;
+  width: 100%;
+  position: fixed;
+  z-index: 101;
+  padding: 40px 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  justify-content: center;
+  font-size: 1.2em;
+}
+.alert.alert-success {
+  background-color: rgb(111, 219, 111);
+}
+.alert.alert-danger {
+  background-color: #ff2929;
+}
+.alert.hideXhrError, .alert.hideXhrSuccess {
+  display: none;
+}
+.alert > div p {
+  margin: 0;
+}
+.alert .icon {
+  background-size: 100px;
+  width: 100px;
+  height: 100px;
+}
+.alert .dangerIcon {
+  background-image: url("/content/themes/theme-to-test-with/assets/svg/danger.svg");
+}
+.alert .successIcon {
+  background-image: url("/content/themes/theme-to-test-with/assets/svg/thumbs-up.svg");
+}
+.alert .alertClose {
+  background-image: url("/content/themes/theme-to-test-with/assets/svg/close.svg");
+  background-size: 40px;
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  cursor: pointer;
 }

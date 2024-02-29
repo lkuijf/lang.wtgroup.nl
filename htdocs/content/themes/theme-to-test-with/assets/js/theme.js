@@ -1,6 +1,41 @@
 const wtContactForms = document.querySelectorAll('.wtContactForm');
 const csrfToken = document.querySelector('meta[name="_token"]').content;
 
+
+function displayAlertBox(type = 'danger', message = 'the message') {
+    let divAlertWrap = document.createElement('div');
+    let divIcon = document.createElement('div');
+    let divText = document.createElement('div');
+    let divClose = document.createElement('div');
+    let pIcon = document.createElement('p');
+    let pText = document.createElement('p');
+    let pClose = document.createElement('p');
+    let tText = document.createTextNode(message);
+
+    pText.append(tText);
+    divIcon.append(pIcon);
+    divText.append(pText);
+    divClose.append(pClose);
+    divAlertWrap.append(divIcon, divText, divClose);
+
+    divAlertWrap.classList.add('alert');
+    divAlertWrap.classList.add('alert-' + type);
+    pIcon.classList.add('icon');
+    pIcon.classList.add(type + 'Icon');
+    pClose.classList.add('alertClose');
+
+    document.body.append(divAlertWrap);
+    divAlertWrap.classList.add('fadeInOut')
+
+    divAlertWrap.addEventListener('animationend', () => {
+        divAlertWrap.remove();
+    });
+    pClose.addEventListener('click', () => {
+        divAlertWrap.remove();
+    });
+
+}
+
 function removeErrorMessages(fields) {
     fields.forEach(f => {
         if(f.name != 'form_parameters') {
@@ -9,10 +44,6 @@ function removeErrorMessages(fields) {
             if(errorEl) errorEl.remove();
         }
     });
-}
-
-function resetForm() {
-
 }
 
 if(wtContactForms.length) {
@@ -41,10 +72,12 @@ if(wtContactForms.length) {
                             span.appendChild(txt);
                             wtField.after(span);
                         }
-                        console.log(response.errorText);
+                        // console.log(response.errorText);
+                        displayAlertBox('danger', response.errorText);
                     } else { //success!
                         form.reset();
-                        console.log(response.successText);
+                        // console.log(response.successText);
+                        displayAlertBox('success', response.successText);
                     }
                 } else {
                     console.error('Error:', xhr.statusText);

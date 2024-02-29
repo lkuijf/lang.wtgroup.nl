@@ -19,7 +19,7 @@ class Widgets extends Hookable
      * @var array
      */
     public $widgets = [
-        //
+        \App\Widgets\FormWidget::class
     ];
 
     /**

@@ -455,5 +455,5 @@ function crb_load() {
     require_once( 'vendor/autoload.php' );
     \Carbon_Fields\Carbon_Fields::boot();
 
-    include_once( 'widgets.inc.php' );
+    // include_once( 'widgets.inc.php' );
 }
