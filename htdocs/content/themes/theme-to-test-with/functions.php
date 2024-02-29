@@ -312,7 +312,7 @@ function contactForm(){
         if(!isset($fields['subject_visitor'])) $fields['subject_visitor'] = '';
 ?>
         <div class="wtBlock">
-            <form action="post" class="wtContactForm">
+            <form action="post" class="wtContactForm" id="captchaForm">
                 <?php
                 $formParams = new \stdClass();
                 $formParams->mail_to = $fields['mail_to'];
@@ -353,7 +353,11 @@ function contactForm(){
                 ?>
                 <input type="hidden" name="valkuil" data-wt-rules>
                 <input type="hidden" name="valstrik" data-wt-rules>
-                <button type="submit">Verzenden</button>
+                <!-- <button type="submit">Verzenden</button> -->
+                <button class="g-recaptcha" 
+                    data-sitekey="6LcG04QpAAAAAFGCKmhl8AnCB8WwLnVeifhPBMgm" 
+                    data-callback='onSubmit' 
+                    data-action='submit'>Verzenden</button>
             </form><!-- /.wtContactForm -->
         </div><!-- /.wtBlock -->
 <?php

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="profile" href="https://gmpg.org/xfn/11">
     <meta name="_token" content="{{ csrf_token() }}">
+    <script src="https://www.google.com/recaptcha/api.js"></script>
     @head
 </head>
 <body @php(body_class())>
@@ -76,6 +77,14 @@
 @env('local')
 	<script src="http://localhost:35729/livereload.js"></script>
 @endenv
+
+
+<script>
+    function onSubmit(token) {
+        document.getElementById("captchaForm").submit();
+    }
+</script>
+
 
 </body>
 </html>
