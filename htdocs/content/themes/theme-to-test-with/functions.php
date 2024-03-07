@@ -353,7 +353,7 @@ function contactForm(){
                 ?>
                 <input type="hidden" name="valkuil" data-wt-rules>
                 <input type="hidden" name="valstrik" data-wt-rules>
-                <div class="cf-turnstile" data-sitekey="0x4AAAAAAATuCPabIQ1dNIob" data-callback="javascriptCallback"></div>
+                <div class="cf-turnstile" data-sitekey="2x00000000000000000000AB" data-callback="javascriptCallback"></div>
                 <button type="submit">Verzenden</button>
             </form><!-- /.wtContactForm -->
         </div><!-- /.wtBlock -->
