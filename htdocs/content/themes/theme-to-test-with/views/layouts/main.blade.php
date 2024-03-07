@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="profile" href="https://gmpg.org/xfn/11">
     <meta name="_token" content="{{ csrf_token() }}">
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     @head
 </head>
 <body @php(body_class())>
