@@ -1,14 +1,6 @@
 const wtContactForms = document.querySelectorAll('.wtContactForm');
 const csrfToken = document.querySelector('meta[name="_token"]').content;
 
-
-if('serviceWorker' in navigator) {
-    console.log('serviceWorker works!');
-} else {
-    console.log('serviceWorker does NOT work');
-}
-
-
 function displayAlertBox(type = 'danger', message = 'the message') {
     let divAlertWrap = document.createElement('div');
     let divIcon = document.createElement('div');
